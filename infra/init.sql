@@ -1,0 +1,6 @@
+CREATE DATABASE ticket_db;
+CREATE DATABASE analysis_db;
+CREATE DATABASE routing_db;
+CREATE DATABASE rag_db;
+CREATE DATABASE auth_db;
+CREATE DATABASE orchestration_db;

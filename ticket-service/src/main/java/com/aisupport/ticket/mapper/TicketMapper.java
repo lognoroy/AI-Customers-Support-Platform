@@ -1,0 +1,39 @@
+package com.aisupport.ticket.mapper;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
+import com.aisupport.ticket.dto.request.TicketRequest;
+import com.aisupport.ticket.dto.response.TicketResponse;
+import com.aisupport.ticket.entity.Ticket;
+
+@Mapper(
+        componentModel = "spring",
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
+public interface TicketMapper {
+	
+	@Mapping(target = "aiConfidence", ignore = true)
+	@Mapping(target = "aiSummary", ignore = true)
+	@Mapping(target = "suggestedReply", ignore = true)
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "version", ignore = true)
+	@Mapping(target = "customerUserId", ignore = true)
+	@Mapping(target = "ticketNumber", ignore = true)
+	@Mapping(target = "customerEmail", ignore = true)
+	@Mapping(target = "customerName", ignore = true)
+	@Mapping(target = "status", ignore = true)
+	@Mapping(target = "priority", ignore = true)
+	@Mapping(target = "assignedTo", ignore = true)
+	@Mapping(target = "intent", ignore = true)
+	@Mapping(target = "sentiment", ignore = true)
+	@Mapping(target = "urgency", ignore = true)
+	@Mapping(target = "slaHours", ignore = true)
+	@Mapping(target = "ragResponse", ignore = true)
+	@Mapping(target = "ragGeneratedAt", ignore = true)
+	Ticket toEntity(TicketRequest request);
+    
+    
+    TicketResponse toResponse(Ticket ticket);
+}

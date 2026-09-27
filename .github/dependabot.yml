@@ -1,0 +1,40 @@
+# Dependabot Configuration
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # GitHub Actions Workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  # Docker Compose (Infrastructure)
+  - package-ecosystem: "docker-compose"
+    directory: "/infra"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  # NPM (Frontend Dashboard)
+  - package-ecosystem: "npm"
+    directory: "/ai-support-dashboard"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      dashboard-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Maven (Centralized Dependency Management in Parent POM)
+  # All microservices inherit versions from aisupport-parent
+  - package-ecosystem: "maven"
+    directory: "/aisupport-parent"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10

@@ -1,0 +1,53 @@
+# Ignore Eclipse project files
+.metadata/
+.project
+.classpath
+.settings/
+
+# Maven
+target/
+
+# SonarLint
+.sonarlint/
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
+*.iml
+
+# Claude Code
+.claude/
+ai-support-marketplace/
+
+# Gemini
+.gemini/
+GEMINI.md
+
+# Custom Agent Settings
+.agents/
+
+# Codex specific ignores
+.codex
+
+# Common temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+### OS files ###
+.DS_Store
+Thumbs.db
+
+# Docker artifacts
+*.jar
+*.war
+*.ear
+.env
+.env.*
+!.env.example

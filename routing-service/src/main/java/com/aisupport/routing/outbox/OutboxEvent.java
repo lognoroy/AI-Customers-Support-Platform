@@ -1,0 +1,84 @@
+package com.aisupport.routing.outbox;
+
+import java.time.Instant;
+import java.util.UUID;
+
+import com.aisupport.common.event.EventType;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "outbox_events",
+       indexes = {
+           @Index(name = "idx_outbox_status", columnList = "status"),
+           @Index(name = "idx_outbox_created_at", columnList = "created_at")
+       })
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class OutboxEvent {
+	
+	public static final int MAX_RETRIES = 3; // retry threshold
+
+    @Id
+    private String id;
+    
+    @Column(name = "correlation_id")
+    private String correlationId;
+
+    @Column(nullable = false)
+    private String aggregateType;
+
+    @Column(nullable = false)
+    private String aggregateId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "event_type", nullable = false)
+    private EventType eventType;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String payload;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
+    @Column(name = "retry_count", nullable = false)
+    @Builder.Default
+    private int retryCount = 0; // retry tracking
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
+    @Column(name = "processed_at")
+    private Instant processedAt;
+
+    public enum Status {
+        PENDING, SENT, FAILED, DEAD
+    }
+
+    @PrePersist
+    public void prePersist() {
+    	if (id == null) {
+            id = UUID.randomUUID().toString();
+        }
+        createdAt = Instant.now();
+        if (status == null) {
+            status = Status.PENDING;
+        }
+    }
+}

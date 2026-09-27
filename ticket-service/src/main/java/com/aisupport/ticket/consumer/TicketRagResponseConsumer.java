@@ -1,0 +1,58 @@
+package com.aisupport.ticket.consumer;
+
+import java.nio.charset.StandardCharsets;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.header.Header;
+import org.slf4j.MDC;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+
+import com.aisupport.common.constants.Correlation;
+import com.aisupport.common.constants.HttpHeaders;
+import com.aisupport.common.constants.KafkaGroups;
+import com.aisupport.common.constants.KafkaTopics;
+import com.aisupport.common.event.TicketRagResponseEvent;
+import com.aisupport.common.exception.TicketEventProcessingException;
+import com.aisupport.ticket.service.TicketService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+@ConditionalOnProperty(name = "ticket.legacy.consumers.enabled", havingValue = "true", matchIfMissing = false)
+public class TicketRagResponseConsumer {
+
+    private final TicketService ticketService;
+
+    @KafkaListener(topics = KafkaTopics.TICKET_RAG_RESPONSE, groupId = KafkaGroups.TICKET)
+    public void consume(ConsumerRecord<String, TicketRagResponseEvent> consumerRecord) {
+
+    	// Extract correlationId from Kafka header into MDC
+        Header correlationHeader = consumerRecord.headers()
+                .lastHeader(HttpHeaders.CORRELATION_ID);
+        if (correlationHeader != null) {
+            MDC.put(Correlation.MDC_KEY,
+                    new String(correlationHeader.value(), StandardCharsets.UTF_8));
+        }
+
+        try {
+            TicketRagResponseEvent event = consumerRecord.value();
+
+            log.info("Consumed rag-response event: ticketId={}", event.getTicketId());
+
+            ticketService.applyRagResponse(event);
+
+        } catch (Exception ex) {
+            log.error("Failed to process rag-response event key={}",
+                    consumerRecord.key(), ex);
+            throw new TicketEventProcessingException(
+                    "Error processing rag-response event", ex);
+        } finally {
+            MDC.remove(Correlation.MDC_KEY);
+        }
+    }
+}

@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-label="AI Support System architecture diagram">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px Arial, sans-serif; fill: #334155; }
+      .node { fill: #f8fafc; stroke: #0f172a; stroke-width: 2; rx: 10; }
+      .infra { fill: #ecfeff; stroke: #0e7490; }
+      .data { fill: #ecfdf5; stroke: #047857; }
+      .external { fill: #fff7ed; stroke: #c2410c; }
+      .label { font: 600 14px Arial, sans-serif; fill: #0f172a; }
+      .small { font: 400 12px Arial, sans-serif; fill: #334155; }
+      .arrow { stroke: #475569; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .dashed { stroke-dasharray: 6 6; }
+      .sync-arrow { stroke: #0284c7; stroke-width: 2; fill: none; marker-end: url(#syncarrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569" />
+    </marker>
+    <marker id="syncarrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0284c7" />
+    </marker>
+  </defs>
+
+  <!-- Solid white background for dark mode compatibility -->
+  <rect width="100%" height="100%" fill="#ffffff" rx="10" />
+
+  <text x="40" y="48" class="title">AI Support System - High-Level Architecture</text>
+  <text x="40" y="74" class="subtitle">Event-driven microservices with Eureka, Kafka, PostgreSQL, and AI orchestration</text>
+
+  <!-- External / Input -->
+  <rect x="70" y="140" width="170" height="70" class="node" />
+  <text x="100" y="170" class="label">Client Apps</text>
+  <text x="98" y="190" class="small">Web / API Clients</text>
+  <line x1="240" y1="175" x2="300" y2="175" class="arrow" />
+
+  <!-- Infra Nodes -->
+  <rect x="300" y="130" width="220" height="90" class="node infra" />
+  <text x="348" y="165" class="label">API Gateway</text>
+  <text x="362" y="186" class="small">Port 8080</text>
+  <line x1="410" y1="220" x2="410" y2="280" class="arrow dashed" />
+
+  <rect x="300" y="280" width="220" height="90" class="node infra" />
+  <text x="333" y="315" class="label">Discovery Service</text>
+  <text x="362" y="336" class="small">Eureka :8761</text>
+
+  <!-- Application Microservices -->
+  <rect x="610" y="100" width="220" height="90" class="node" />
+  <text x="664" y="135" class="label">Auth Service</text>
+  <text x="662" y="156" class="small">Port 8081</text>
+
+  <rect x="610" y="210" width="220" height="90" class="node" />
+  <text x="655" y="245" class="label">Ticket Service</text>
+  <text x="662" y="266" class="small">Port 8082</text>
+
+  <rect x="610" y="320" width="220" height="90" class="node" />
+  <text x="625" y="355" class="label">AI Orchestration Service</text>
+  <text x="662" y="376" class="small">Port 8086</text>
+
+  <rect x="610" y="430" width="220" height="90" class="node" />
+  <text x="635" y="465" class="label">AI Analysis Service</text>
+  <text x="662" y="486" class="small">Port 8083</text>
+
+  <rect x="610" y="540" width="220" height="90" class="node" />
+  <text x="647" y="575" class="label">Routing Service</text>
+  <text x="662" y="596" class="small">Port 8084</text>
+
+  <rect x="610" y="650" width="220" height="90" class="node" />
+  <text x="664" y="685" class="label">RAG Service</text>
+  <text x="662" y="706" class="small">Port 8085</text>
+
+  <!-- Data / Event Stores -->
+  <rect x="930" y="220" width="220" height="90" class="node infra" />
+  <text x="1002" y="255" class="label">Kafka</text>
+  <text x="972" y="276" class="small">Event Backbone :9092</text>
+  <text x="965" y="200" class="small">Ticket &amp; workflow events</text>
+
+  <rect x="930" y="360" width="220" height="90" class="node data" />
+  <text x="965" y="395" class="label">PostgreSQL + pgvector</text>
+  <text x="1001" y="416" class="small">Data Store :5433</text>
+
+  <!-- External AI -->
+  <rect x="1210" y="220" width="150" height="90" class="node external" />
+  <text x="1242" y="270" class="label">Google GenAI</text>
+
+  <!-- Gateway to Services -->
+  <line x1="520" y1="150" x2="610" y2="145" class="arrow" />
+  <line x1="520" y1="160" x2="610" y2="255" class="arrow" />
+  <line x1="520" y1="170" x2="610" y2="365" class="arrow" />
+  <line x1="520" y1="180" x2="610" y2="475" class="arrow" />
+  <line x1="520" y1="190" x2="610" y2="585" class="arrow" />
+  <line x1="520" y1="200" x2="610" y2="695" class="arrow" />
+
+  <!-- Discovery to Services -->
+  <line x1="520" y1="300" x2="610" y2="145" class="arrow dashed" />
+  <line x1="520" y1="310" x2="610" y2="255" class="arrow dashed" />
+  <line x1="520" y1="320" x2="610" y2="365" class="arrow dashed" />
+  <line x1="520" y1="330" x2="610" y2="475" class="arrow dashed" />
+  <line x1="520" y1="340" x2="610" y2="585" class="arrow dashed" />
+  <line x1="520" y1="350" x2="610" y2="695" class="arrow dashed" />
+
+  <!-- Orchestrator to Domain Services (REST/Tools) -->
+  <path d="M 830 365 Q 880 420 830 475" class="sync-arrow" />
+  <path d="M 830 365 Q 900 475 830 585" class="sync-arrow" />
+  <path d="M 830 365 Q 920 530 830 695" class="sync-arrow" />
+
+  <!-- Services to Kafka -->
+  <line x1="830" y1="255" x2="930" y2="255" class="arrow" /> <!-- Ticket -->
+  <line x1="930" y1="275" x2="830" y2="345" class="arrow" /> <!-- Kafka -> Orchestrator -->
+  <line x1="830" y1="385" x2="930" y2="295" class="arrow" /> <!-- Orchestrator -> Kafka -->
+
+  <!-- Services to PostgreSQL -->
+  <line x1="830" y1="145" x2="930" y2="385" class="arrow" /> <!-- Auth -->
+  <line x1="830" y1="255" x2="930" y2="395" class="arrow" /> <!-- Ticket -->
+  <line x1="830" y1="365" x2="930" y2="405" class="arrow" /> <!-- Orch -->
+  <line x1="830" y1="695" x2="930" y2="435" class="arrow" /> <!-- RAG -->
+
+  <!-- Services to External AI -->
+  <line x1="830" y1="475" x2="1210" y2="255" class="arrow" /> <!-- Analysis -->
+  <line x1="830" y1="695" x2="1210" y2="285" class="arrow" /> <!-- RAG -->
+
+  <text x="70" y="800" class="small">Solid lines: Async Event/Request  |  Dashed lines: Discovery  |  Blue lines: Synchronous REST (Tool Calling)</text>
+</svg>

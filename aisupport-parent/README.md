@@ -1,0 +1,47 @@
+# AI Support Parent
+
+Parent Maven Project for the AI Support System microservices platform.
+
+## Overview
+
+This project serves as the parent Object Model (POM) for all microservices in the AI Support System. It centralizes:
+
+- **Dependency Management**: Ensures consistent versions across all modules (Spring Boot, Spring Cloud, Spring AI, etc.).
+- **Build Configuration**: Defines plugins and profiles used by all services.
+- **Project Inheritance**: Simplifies the child `pom.xml` files by providing shared properties and dependencies.
+
+## Key Technologies
+
+- **Java**: 21
+- **Spring Boot**: 4.1.1
+- **Spring Cloud**: 2025.1.2
+- **Spring AI**: 2.0.0
+- **Jakarta Validation**: 3.1.1
+- **Sonar Maven Plugin**: 5.8.0
+- **MapStruct**: 1.6.3
+- **Lombok**: 1.18.46
+- **Testcontainers**: 2.0.5
+
+## Building the Entire Project
+
+From this directory, you can build all modules at once:
+
+```bash
+./mvnw clean install
+```
+
+From the repository root, use `./aisupport-parent/mvnw -f aisupport-parent/pom.xml clean install`.
+
+## Modular Structure
+
+The parent POM manages the following modules:
+
+- `discovery-service`
+- `api-gateway` (orchestrated via root)
+- `auth-service`
+- `ticket-service`
+- `ai-analysis-service`
+- `routing-service`
+- `rag-service`
+- `ai-orchestration-service`
+- `common-library`

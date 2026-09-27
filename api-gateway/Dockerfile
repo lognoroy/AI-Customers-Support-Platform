@@ -1,0 +1,33 @@
+# Stage 1: Build
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+WORKDIR /app
+
+# Copy parent and common library
+COPY aisupport-parent ./aisupport-parent
+COPY common-library ./common-library
+
+# Copy this service
+COPY api-gateway ./api-gateway
+
+# 1) Install parent POM
+RUN mvn -N -f aisupport-parent/pom.xml clean install -DskipTests
+
+# 2) Install common-library for module dependency resolution
+RUN mvn -f common-library/pom.xml clean install -DskipTests
+
+# Build this service and copy jar to known location
+WORKDIR /app/api-gateway
+RUN mvn clean package -DskipTests \
+    && JAR=$(ls target/*.jar | grep -v 'original' | grep -v 'sources' | head -n1) \
+    && cp "$JAR" /app/app.jar
+
+# Stage 2: Runtime
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/app.jar app.jar
+
+ENV SPRING_PROFILES_ACTIVE=docker
+
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","app.jar"]
